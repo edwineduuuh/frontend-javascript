@@ -46,3 +46,37 @@ interface DirectorInterface {
   console.log(createEmployee(1000)); // Director instance
   console.log(createEmployee('$500')); // Director instance
   
+
+// Type predicate function to check if employee is a Director
+function isDirector(employee: Director | Teacher): employee is Director {
+    return (employee as Director).workDirectorTasks !== undefined;
+  }
+  
+  // Function to execute the correct work method
+  function executeWork(employee: Director | Teacher): string {
+    if (isDirector(employee)) {
+      return employee.workDirectorTasks();
+    } else {
+      return employee.workTeacherTasks();
+    }
+  }
+  
+  // Example usage (optional for testing)
+  console.log(executeWork(createEmployee(200)));  // Output: Getting to work
+  console.log(executeWork(createEmployee(1000))); // Output: Getting to director tasks
+  
+  // String literal type for allowed subjects
+type Subjects = 'Math' | 'History';
+
+// Function teachClass that returns a specific string based on subject
+function teachClass(todayClass: Subjects): string {
+  if (todayClass === 'Math') {
+    return 'Teaching Math';
+  } else {
+    return 'Teaching History';
+  }
+}
+
+// Example usage (optional for testing)
+console.log(teachClass('Math'));    // Teaching Math
+console.log(teachClass('History')); // Teaching History
